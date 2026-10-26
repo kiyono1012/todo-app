@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToDo管理</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="container">
+    <h1>ToDo管理</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="message {{ category }}" role="alert">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <form id="add-form" class="add-form" action="{{ url_for('add_task') }}" method="post" novalidate>
+      <input type="text" id="title" name="title" maxlength="100" placeholder="新しいタスクを入力" autocomplete="off" autofocus>
+      <button type="submit" class="btn btn-primary">登録</button>
+    </form>
+    <p id="client-error" class="message error hidden" role="alert"></p>
+
+    <section>
+      <div class="list-header">
+        <h2>タスク一覧</h2>
+        <span class="summary">全{{ tasks|length }}件（完了 {{ done_count }} / 未完了 {{ tasks|length - done_count }}）</span>
+      </div>
+
+      {% if tasks %}
+      <ul class="task-list">
+        {% for task in tasks %}
+        <li class="task {{ 'done' if task.done else 'todo' }}">
+          <form action="{{ url_for('toggle_task', task_id=task.id) }}" method="post" class="toggle-form">
+            <button type="submit" class="check" title="{{ '未完了に戻す' if task.done else '完了にする' }}" aria-label="{{ '未完了に戻す' if task.done else '完了にする' }}">{{ '✓' if task.done else '' }}</button>
+          </form>
+          <div class="task-body">
+            <span class="task-title">{{ task.title }}</span>
+            <span class="task-meta">登録日時: {{ task.created_at }}</span>
+          </div>
+          <span class="status {{ 'status-done' if task.done else 'status-todo' }}">{{ '完了' if task.done else '未完了' }}</span>
+          <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post" class="delete-form">
+            <button type="submit" class="btn btn-danger delete-btn">削除</button>
+            <button type="button" class="btn btn-cancel cancel-btn hidden">キャンセル</button>
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="empty">タスクはまだありません。上のフォームから登録してください。</p>
+      {% endif %}
+    </section>
+  </main>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
