@@ -41,7 +41,8 @@
           </div>
           <span class="status {{ 'status-done' if task.done else 'status-todo' }}">{{ '完了' if task.done else '未完了' }}</span>
           <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post" class="delete-form">
-            <button type="submit" class="btn btn-danger">削除</button>
+            <button type="submit" class="btn btn-danger delete-btn">削除</button>
+            <button type="button" class="btn btn-cancel cancel-btn hidden">キャンセル</button>
           </form>
         </li>
         {% endfor %}

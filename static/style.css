@@ -41,6 +41,10 @@ h2 { margin: 0; font-size: 18px; color: #2c3e50; }
 .btn-primary:hover { background: #2563eb; }
 .btn-danger { background: #fff; color: #dc2626; border: 1px solid #dc2626; padding: 6px 12px; }
 .btn-danger:hover { background: #dc2626; color: #fff; }
+.btn-danger.confirming { background: #dc2626; color: #fff; }
+.btn-cancel { background: #fff; color: #555; border: 1px solid #ccd3dc; padding: 6px 12px; }
+.btn-cancel:hover { background: #f3f4f6; }
+.delete-form { display: flex; gap: 6px; }
 
 .message { padding: 10px 14px; margin: 0 0 16px; border-radius: 6px; font-size: 14px; }
 .message.error { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
